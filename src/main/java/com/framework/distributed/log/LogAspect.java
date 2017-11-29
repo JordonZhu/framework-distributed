@@ -31,13 +31,14 @@ import java.util.Map;
 public class LogAspect {
 
     private static Logger logger = LoggerFactory.getLogger(LogAspect.class);
-    private static final String POINT_CUT = "execution(public * com..*.controller.*.*(..)) && @annotation(org.springframework.stereotype.Controller))";
+    //定义一个切入点 {  POINT_CUT = public 任意类型返回值 com.任意公司项目业务包.controller.任意类.任意方法.(任意多个参数) && 有注解 RequestMapping }
+    private static final String POINT_CUT = "execution(public * com..*.controller.*.*(..)) " +
+            "&& @annotation(org.springframework.web.bind.annotation.RequestMapping))";
 
     /**
      * Created with Jingyan
      * Time: 2017-11-24 17:56
      * Description:  日志打印切点
-     * 定义一个切入点 {  POINT_CUT = public 任意类型返回值 com.任意公司项目业务包.controller.任意类.任意方法.(任意多个参数)   }
      */
     @Pointcut(POINT_CUT)
     public void webLog() {
@@ -63,7 +64,7 @@ public class LogAspect {
             String paraName = paramNames.nextElement();
             map.put(paraName, request.getParameter(paraName));
         }
-        logger.debug(" method={} 入参：, param={}", joinPoint.getSignature().getDeclaringTypeName()
+        logger.info(" method={} 入参：, param={}", joinPoint.getSignature().getDeclaringTypeName()
                 + "."
                 + joinPoint.getSignature().getName(), JSONObject.toJSONString(map));
     }
@@ -75,7 +76,7 @@ public class LogAspect {
      */
     @AfterReturning(value = "webLog()", returning = "retVal")
     public void doAfterReturning(JoinPoint joinPoint, Object retVal) {
-        logger.debug(" method={} 出参：, param={}", joinPoint.getSignature().getDeclaringTypeName()
+        logger.info(" method={} 出参：, param={}", joinPoint.getSignature().getDeclaringTypeName()
                 + "."
                 + joinPoint.getSignature().getName(), JSONObject.toJSONString(retVal));
     }
