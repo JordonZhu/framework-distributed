@@ -31,13 +31,13 @@ import java.util.Map;
 public class LogAspect {
 
     private static Logger logger = LoggerFactory.getLogger(LogAspect.class);
-    private static final String POINT_CUT = "execution(public * com..*.controller.*.*(..))";
+    private static final String POINT_CUT = "execution(public * com..*.controller.*.*(..)) && @annotation(org.springframework.stereotype.Controller))";
 
     /**
      * Created with Jingyan
      * Time: 2017-11-24 17:56
      * Description:  日志打印切点
-     * 定义一个切入点 { public 任意类型返回值 com.任意公司项目业务包.controller.任意类.任意方法.(任意多个参数)}
+     * 定义一个切入点 {  POINT_CUT = public 任意类型返回值 com.任意公司项目业务包.controller.任意类.任意方法.(任意多个参数)   }
      */
     @Pointcut(POINT_CUT)
     public void webLog() {
@@ -49,7 +49,7 @@ public class LogAspect {
      * Time: 2017-11-24 16:30
      * Description: 入参
      */
-    @Before("webLog()")
+    @Before(value = "webLog()")
     public void doBefore(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
