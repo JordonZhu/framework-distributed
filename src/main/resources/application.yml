@@ -1,0 +1,18 @@
+spring:
+    redis:
+        cluster:
+            password: 1234
+            pool.max-active: 200
+            pool.max-idle: 20
+            pool.min-idle: 5
+            pool.max-wait: -1
+            timeout: 100000
+            nodes:
+               127.0.0.1:6379
+               127.0.0.1:6379
+               127.0.0.1:6379
+               127.0.0.1:6379
+               127.0.0.1:6379
+               127.0.0.1:6379
+    
+ 
